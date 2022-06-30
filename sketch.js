@@ -4,9 +4,14 @@ var bgImg;
 var database;
 var form, player, game;
 var playerCount, gameState;
+var carro1, carro2, carro1PNG, carro2PNG;
+var pista;
 
 function preload() {
   backgroundImage = loadImage("./assets/planodefundo.png");
+  carro1PNG = loadImage("assets/car1.png");
+  carro2PNG = loadImage("assets/car2.png");
+  pista = loadImage("assets/PISTA.png");
 }
 
 function setup() {
@@ -20,6 +25,12 @@ function setup() {
 
 function draw() {
   background(backgroundImage);
+  if (playerCount === 2) {
+    game.updateState (1);
+  }
+  if (gameState === 1) {
+    game.play ();
+  }
 }
 
 function windowResized() {
