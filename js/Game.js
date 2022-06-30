@@ -42,11 +42,16 @@ class Game {
       carros[index-1].position.x = x;
       carros[index-1].position.y = y;
       
+      if(index === player.index){
+        fill ("red");
+        ellipse (x,y,60);
+        camera.position.y = carros[index-1].position.y;
+      }
+      this.playerControl();
+
+      drawSprites();
       }
     }
-    this.playerControl();
-
-    drawSprites();
   }
 
   playerControl(){
