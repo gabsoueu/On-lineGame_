@@ -28,6 +28,8 @@ class Game {
   play() {
     this.handleElements();
 
+    this.reset();
+
     Player.getPlayersInfo();
 
     if(allPlayers !== undefined){
@@ -87,14 +89,14 @@ class Game {
       leader1 = 
         players[0].rank +
         "&emsp;" + 
-        player[0].name + 
+        players[0].name + 
         "&emsp;" +
         players[0].score;
 
         leader2 = 
         players[1].rank +
         "&emsp;" + 
-        player[1].name + 
+        players[1].name + 
         "&emsp;" +
         players[1].score;
       }
@@ -103,22 +105,32 @@ class Game {
         leader1 = 
         players[1].rank +
         "&emsp;" + 
-        player[1].name + 
+        players[1].name + 
         "&emsp;" +
         players[1].score;
 
         leader2 = 
         players[0].rank +
         "&emsp;" + 
-        player[0].name + 
+        players[0].name + 
         "&emsp;" +
         players[0].score;
       }
+      this.leader1.html(leader1);
+      this.leader2.html(leader2);
   }
 
   playerControl(){
     if(keyIsDown(UP_ARROW)){
       player.positionY += 10;
+      player.update();
+    }
+    if(keyIsDown(LEFT_ARROW) && player.positionX > width/3-50){
+      player.positionX -= 5;
+      player.update();
+    }
+    if(keyIsDown(RIGHT_ARROW)&& player.positionX < width/2+150){
+      player.positionX += 5;
       player.update();
     }
   }
@@ -133,6 +145,17 @@ class Game {
   updateState(state){
     database.ref("/").update({
       gameState: state,
+    });
+  }
+
+  reset(){
+    this.resetButton.mousePressed(()=>{
+      database.ref("/").set({
+        gameState:0,
+        playerCount:0,
+        players:{},
+      });
+      window.location.reload();
     });
   }
 

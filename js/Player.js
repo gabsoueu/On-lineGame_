@@ -59,7 +59,7 @@ class Player {
   }
 
   getDistance(){
-    var distanceRef = database.ref ("players/player1"+this.index);
+    var distanceRef = database.ref ("players/player"+this.index);
     distanceRef.on ("value",data => {
       var data = data.val();
       this.positionX = data.positionX;
