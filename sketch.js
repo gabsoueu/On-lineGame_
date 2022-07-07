@@ -10,6 +10,8 @@ var carros;
 var allPlayers;
 var coinImg, fuelImg;
 var fuels, coins;
+var obstaculos;
+var pneusImg, conesImg;
 
 function preload() {
   backgroundImage = loadImage("./assets/planodefundo.png");
@@ -18,7 +20,8 @@ function preload() {
   pista = loadImage("assets/track.jpg");
   coinImg = loadImage("assets/goldCoin.png");
   fuelImg = loadImage("assets/fuel.png");
-
+  conesImg = loadImage("assets/obstacle1.png");
+  pneusImg = loadImage("assets/obstacle2.png");
 }
 
 function setup() {

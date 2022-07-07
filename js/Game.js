@@ -26,25 +26,28 @@ class Game {
 
     fuels = new Group();
     coins = new Group();
+    obstaculos = new Group();
 
-    var obstaclesPositions = [
-      { x: width / 2 + 250, y: height - 800, image: obstacle2Image },
-      { x: width / 2 - 150, y: height - 1300, image: obstacle1Image },
-      { x: width / 2 + 250, y: height - 1800, image: obstacle1Image },
-      { x: width / 2 - 180, y: height - 2300, image: obstacle2Image },
-      { x: width / 2, y: height - 2800, image: obstacle2Image },
-      { x: width / 2 - 180, y: height - 3300, image: obstacle1Image },
-      { x: width / 2 + 180, y: height - 3300, image: obstacle2Image },
-      { x: width / 2 + 250, y: height - 3800, image: obstacle2Image },
-      { x: width / 2 - 150, y: height - 4300, image: obstacle1Image },
-      { x: width / 2 + 250, y: height - 4800, image: obstacle2Image },
-      { x: width / 2, y: height - 5300, image: obstacle1Image },
-      { x: width / 2 - 180, y: height - 5500, image: obstacle2Image }
-    ];
-    
     this.addSprites(fuels,1,fuelImg,0.02);
 
     this.addSprites(coins,10,coinImg,0.09);
+
+    var obstaclesPositions = [
+      { x: width / 2 + 250, y: height - 800, image: pneusImg },
+      { x: width / 2 - 150, y: height - 1300, image: conesImg },
+      { x: width / 2 + 250, y: height - 1800, image: conesImg },
+      { x: width / 2 - 180, y: height - 2300, image: pneusImg },
+      { x: width / 2, y: height - 2800, image: pneusImg },
+      { x: width / 2 - 180, y: height - 3300, image: conesImg },
+      { x: width / 2 + 180, y: height - 3300, image: pneusImg },
+      { x: width / 2 + 250, y: height - 3800, image: pneusImg },
+      { x: width / 2 - 150, y: height - 4300, image: conesImg },
+      { x: width / 2 + 250, y: height - 4800, image: pneusImg },
+      { x: width / 2, y: height - 5300, image: conesImg },
+      { x: width / 2 - 180, y: height - 5500, image: pneusImg }
+    ];
+
+    this.addSprites(obstaculos,obstaclesPositions.length,pneusImg,0.04,obstaclesPositions);
 
   }
 
@@ -182,12 +185,18 @@ class Game {
     });
   }
 
-  addSprites(spriteGroup, numberOfSprites, spriteImage, scale){
+  addSprites(spriteGroup, numberOfSprites, spriteImage, scale, matriz=[]){
     for(var i=0; i<numberOfSprites; i++){
       var x,y;
 
-      x = random(width/2 -150, width/2 + 150);
-      y = random(-height*5, height-400);
+      if(matriz.length>0){
+        x = matriz[i].x;
+        y = matriz[i].y;
+        spriteImage = matriz[i].image;
+      }else{
+        x = random(width/2 -150, width/2 + 150);
+        y = random(-height*5, height-400);
+      }
 
       var sprite = createSprite(x,y);
       sprite.addImage("sprite", spriteImage);
