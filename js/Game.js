@@ -13,6 +13,7 @@ class Game {
     form.display();
     player = new Player();
     playerCount = player.getCount();
+
     carro1 = createSprite (width/2, height-100);
     carro1.addImage("car1",carro1PNG);
     carro1.scale = 0.07;
@@ -22,6 +23,14 @@ class Game {
     carro2.scale = 0.07;
 
     carros = [carro1,carro2];
+
+    fuels = new Group();
+    coins = new Group();
+
+    this.addSprites(fuels,1,fuelImg,0.02);
+
+    this.addSprites(coins,10,coinImg,0.09);
+
 
   }
 
@@ -157,6 +166,21 @@ class Game {
       });
       window.location.reload();
     });
+  }
+
+  addSprites(spriteGroup, numberOfSprites, spriteImage, scale){
+    for(var i=0; i<numberOfSprites; i++){
+      var x,y;
+
+      x = random(width/2 -150, width/2 + 150);
+      y = random(-height*5, height-400);
+
+      var sprite = createSprite(x,y);
+      sprite.addImage("sprite", spriteImage);
+
+      sprite.scale = scale;
+      spriteGroup.add(sprite);
+    }
   }
 
 }
