@@ -6,6 +6,8 @@ class Game {
     this.leaderboardTitle = createElement("h2");
     this.leader1 = createElement("h2");
     this.leader2 = createElement("h2");
+
+    this.playerMove = false;
   }
 
   start() {
@@ -64,6 +66,7 @@ class Game {
       //exibir o placar
       this.showLeaderboard();
       this.showLife();
+      this.showFuel();
 
       var index = 0;
     //for in => for(variável in objeto)
@@ -169,6 +172,7 @@ class Game {
     if(keyIsDown(UP_ARROW)){
       player.positionY += 10;
       player.update();
+      this.playerMove = true;
     }
     if(keyIsDown(LEFT_ARROW) && player.positionX > width/3-50){
       player.positionX -= 5;
@@ -231,6 +235,13 @@ class Game {
       player.fuel = 85;
       collected.remove();
     });
+    if(player.fuel > 0 && this.playerMove){
+      player.fuel -= 0.75;
+    }
+    if(player.fuel <= 0 ){
+      gameState = 2;
+      this.gameOver();
+    }
   }
 
   handlePowerCoins(index){
@@ -251,13 +262,35 @@ class Game {
     });
   }
 
+  gameOver(){
+    swal({
+      title: `Incrível, ${"\n"} Rank ${"\n"} ${player.rank}`,
+      text: "Fim de jogo",
+      imageURL: 
+      "https://cdn.shopify.com/s/files/1/1061/1924/products/Thumbs_Down_Sign_Emoji_Icon_ios10_grande.png",
+      imageSize: "100x100",
+      confirmButtonText: "Ok",
+    })
+  }
+
   showLife(){
     push();
-    image(vidaImg,width/2 - 130, height - player.positionY - 400, 20,20);
+    image(vidaImg,width/2 - 130, height - player.positionY - 250, 20,20);
     fill("white");
-    rect(width/2 - 100, height - player.positionY - 400, 185, 20);
+    rect(width/2 - 100, height - player.positionY - 250, 185, 20);
     fill("red");
-    rect(width/2 - 100, height - player.positionY - 400, player.life, 20);
+    rect(width/2 - 100, height - player.positionY - 250, player.life, 20);
+    noStroke();
+    pop();
+  }
+
+  showFuel(){
+    push();
+    image(fuelImg,width/2 - 130, height - player.positionY - 200, 20,20);
+    fill("white");
+    rect(width/2 - 100, height - player.positionY - 200, 185, 20);
+    fill("orange");
+    rect(width/2 - 100, height - player.positionY - 200, player.fuel, 20);
     noStroke();
     pop();
   }

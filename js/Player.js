@@ -28,6 +28,7 @@ class Player {
       positionY: this.positionY,
       rank: this.rank,
       score: this.score,
+      fuel: this.fuel,
     })
   }
 
@@ -58,6 +59,7 @@ class Player {
       positionY: this.positionY,
       rank: this.rank,
       score: this.score,
+      fuel: this.fuel,
     });
   }
 
@@ -82,5 +84,7 @@ class Player {
       carsAtEnd: rank,
     });
   }
+
+
   
 }
