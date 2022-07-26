@@ -57,11 +57,13 @@ class Game {
     this.reset();
 
     Player.getPlayersInfo();
+    player.getCarsAtEnd();
 
     if(allPlayers !== undefined){
       image(pista, 0, -height*5, width, height*6);
       //exibir o placar
       this.showLeaderboard();
+      this.showLife();
 
       var index = 0;
     //for in => for(variável in objeto)
@@ -77,9 +79,26 @@ class Game {
         fill ("red");
         ellipse (x,y,60);
         camera.position.y = carros[index-1].position.y;
+
+        this.handleFuel(index);
+        this.handlePowerCoins(index);
+
       }
       this.playerControl();
 
+      //linha de chegada
+      const finishLine = height*6 - 100;
+
+      if(player.positionY > finishLine){
+        gameState = 2;
+        player.rank += 1;
+        //atualizar o BD
+        Player.updateCarsAtEnd(player.rank);
+        player.update();
+        //sweetAlert
+        this.showRank();
+      }
+      
       drawSprites();
       }
     }
@@ -180,6 +199,7 @@ class Game {
         gameState:0,
         playerCount:0,
         players:{},
+        carsAtEnd:0,
       });
       window.location.reload();
     });
@@ -206,4 +226,39 @@ class Game {
     }
   }
 
+  handleFuel(index){
+    carros[index-1].overlap(fuels,function(collector,collected){
+      player.fuel = 85;
+      collected.remove();
+    });
+  }
+
+  handlePowerCoins(index){
+    carros[index-1].overlap(coins,function(collector,collected){
+      player.score += 5;
+      collected.remove();
+    });
+  }
+
+  showRank(){
+    swal({
+      title: `Incrível, ${"\n"} Rank ${"\n"} ${player.rank}`,
+      text: "Você alcançou a linha de chegada",
+      imageURL: 
+      "https://raw.githubusercontent.com/vishalgaddam873/p5-multiplayer-car-race-game/master/assets/cup.png",
+      imageSize: "100x100",
+      confirmButtonText: "Ok",
+    });
+  }
+
+  showLife(){
+    push();
+    image(vidaImg,width/2 - 130, height - player.positionY - 400, 20,20);
+    fill("white");
+    rect(width/2 - 100, height - player.positionY - 400, 185, 20);
+    fill("red");
+    rect(width/2 - 100, height - player.positionY - 400, player.life, 20);
+    noStroke();
+    pop();
+  }
 }

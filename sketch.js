@@ -11,7 +11,7 @@ var allPlayers;
 var coinImg, fuelImg;
 var fuels, coins;
 var obstaculos;
-var pneusImg, conesImg;
+var pneusImg, conesImg, vidaImg;
 
 function preload() {
   backgroundImage = loadImage("./assets/planodefundo.png");
@@ -22,6 +22,7 @@ function preload() {
   fuelImg = loadImage("assets/fuel.png");
   conesImg = loadImage("assets/obstacle1.png");
   pneusImg = loadImage("assets/obstacle2.png");
+  vidaImg = loadImage("assets/life.png");
 }
 
 function setup() {
