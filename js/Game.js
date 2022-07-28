@@ -8,6 +8,8 @@ class Game {
     this.leader2 = createElement("h2");
 
     this.playerMove = false;
+
+    this.leftKeyActive = false;
   }
 
   start() {
@@ -85,6 +87,7 @@ class Game {
 
         this.handleFuel(index);
         this.handlePowerCoins(index);
+        this.obstaclesCollision(index);
 
       }
       this.playerControl();
@@ -175,10 +178,12 @@ class Game {
       this.playerMove = true;
     }
     if(keyIsDown(LEFT_ARROW) && player.positionX > width/3-50){
+      this.leftKeyActive = true;
       player.positionX -= 5;
       player.update();
     }
     if(keyIsDown(RIGHT_ARROW)&& player.positionX < width/2+150){
+      this.leftKeyActive = false;
       player.positionX += 5;
       player.update();
     }
@@ -293,5 +298,21 @@ class Game {
     rect(width/2 - 100, height - player.positionY - 200, player.fuel, 20);
     noStroke();
     pop();
+  }
+
+  obstaclesCollision(index){
+    if(carros[index-1].collide(obstaculos)){
+      if(this.leftKeyActive){
+        player.positionX += 100;
+      }
+      else{
+        player.positionX -= 100;
+      }
+      
+      if(player.life > 0){
+        player.life -= 185/4;
+      }
+      player.update();
+    }
   }
 }

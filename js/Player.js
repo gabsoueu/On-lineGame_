@@ -29,6 +29,7 @@ class Player {
       rank: this.rank,
       score: this.score,
       fuel: this.fuel,
+      life: this.life,
     })
   }
 
@@ -60,6 +61,7 @@ class Player {
       rank: this.rank,
       score: this.score,
       fuel: this.fuel,
+      life: this.life,
     });
   }
 
