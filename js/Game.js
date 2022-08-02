@@ -10,6 +10,9 @@ class Game {
     this.playerMove = false;
 
     this.leftKeyActive = false;
+
+    this.self = false;
+
   }
 
   start() {
@@ -21,10 +24,13 @@ class Game {
     carro1 = createSprite (width/2, height-100);
     carro1.addImage("car1",carro1PNG);
     carro1.scale = 0.07;
+    carro1.addImage("cabom",boomImg);
 
     carro2 = createSprite (width/2 + 100, height-100);
     carro2.addImage("car2",carro2PNG);
     carro2.scale = 0.07;
+    carro2.addImage("cabom",boomImg);
+
 
     carros = [carro1,carro2];
 
@@ -79,6 +85,13 @@ class Game {
 
       carros[index-1].position.x = x;
       carros[index-1].position.y = y;
+
+      var vida = allPlayers[plr].life;
+      if (vida <= 0){
+        carros[index-1].changeImage("cabom");
+        carros[index-1].scale=0.3
+       // allPlayers[plr].self = true;
+      }
       
       if(index === player.index){
         fill ("red");
@@ -88,6 +101,12 @@ class Game {
         this.handleFuel(index);
         this.handlePowerCoins(index);
         this.obstaclesCollision(index);
+        this.carCollision(index);
+
+        if(player.life <= 0){
+          this.self = true;
+          this.playerMove = false;
+        }
 
       }
       this.playerControl();
@@ -108,7 +127,13 @@ class Game {
       drawSprites();
       }
     }
+  } //play
+
+  end ()
+  {
+    console.log ("acabou o jogo");
   }
+  
 
   handleElements(){
     form.hide();
@@ -172,20 +197,22 @@ class Game {
   }
 
   playerControl(){
-    if(keyIsDown(UP_ARROW)){
-      player.positionY += 10;
-      player.update();
-      this.playerMove = true;
-    }
-    if(keyIsDown(LEFT_ARROW) && player.positionX > width/3-50){
-      this.leftKeyActive = true;
-      player.positionX -= 5;
-      player.update();
-    }
-    if(keyIsDown(RIGHT_ARROW)&& player.positionX < width/2+150){
-      this.leftKeyActive = false;
-      player.positionX += 5;
-      player.update();
+    if (this.self === false){
+      if(keyIsDown(UP_ARROW)){
+        player.positionY += 10;
+        player.update();
+        this.playerMove = true;
+      }
+      if(keyIsDown(LEFT_ARROW) && player.positionX > width/3-50){
+        this.leftKeyActive = true;
+        player.positionX -= 5;
+        player.update();
+      }
+      if(keyIsDown(RIGHT_ARROW)&& player.positionX < width/2+150){
+        this.leftKeyActive = false;
+        player.positionX += 5;
+        player.update();
+      }
     }
   }
 
@@ -313,6 +340,37 @@ class Game {
         player.life -= 185/4;
       }
       player.update();
+    }
+  }
+
+  carCollision(index){
+    if(index === 1){
+      if(carros[index-1].collide(carros[1])){
+        if(this.leftKeyActive){
+          player.positionX += 100;
+        }
+        else{
+          player.positionX -= 100;
+        }
+        if(player.life > 0){
+          player.life -= 185/4;
+        }
+        player.update();
+      }
+    }
+    if(index === 2){
+      if(carros[index-1].collide(carros[0])){
+        if(this.leftKeyActive){
+          player.positionX += 100;
+        }
+        else{
+          player.positionX -= 100;
+        }
+        if(player.life > 0){
+          player.life -= 185/4;
+        }
+        player.update();
+      }
     }
   }
 }

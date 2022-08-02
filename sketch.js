@@ -12,6 +12,7 @@ var coinImg, fuelImg;
 var fuels, coins;
 var obstaculos;
 var pneusImg, conesImg, vidaImg;
+var boomImg;
 
 function preload() {
   backgroundImage = loadImage("./assets/planodefundo.png");
@@ -23,6 +24,7 @@ function preload() {
   conesImg = loadImage("assets/obstacle1.png");
   pneusImg = loadImage("assets/obstacle2.png");
   vidaImg = loadImage("assets/life.png");
+  boomImg = loadImage("assets/blast.png");
 }
 
 function setup() {
@@ -41,6 +43,10 @@ function draw() {
   }
   if (gameState === 1) {
     game.play ();
+  }
+  if (gameState === 2) {
+    game.end ();
+    game.showLeaderboard ();
   }
 }
 

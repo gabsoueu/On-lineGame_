@@ -10,6 +10,7 @@ class Player {
     this.fuel = 185;
     this.life = 185;
     this.rank = 0;
+   // this.self = false;
   }
 
   addPlayer(){
@@ -30,6 +31,7 @@ class Player {
       score: this.score,
       fuel: this.fuel,
       life: this.life,
+     // self: this.self,
     })
   }
 
@@ -62,6 +64,7 @@ class Player {
       score: this.score,
       fuel: this.fuel,
       life: this.life,
+     // self: this.self,
     });
   }
 
